@@ -1,8 +1,12 @@
 ﻿@page "/"
+@inject IJSRuntime jsRuntime
+@{
+    string rtlClass = System.Globalization.CultureInfo.CurrentCulture.TextInfo.IsRightToLeft ? "k-rtl" : string.Empty;
+}
 
 <h3>Employees</h3>
 
-@if (Employees.IsNullOrEmpty())
+@*@if (Employees.IsNullOrEmpty())
 {
     <div class="spinner"></div>
 }
@@ -24,4 +28,19 @@ else
             </div>
         }
     </div>
-}
+}*@
+
+<div id="grid-section" class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <button class="btn btn-primary">
+            <i class="fa fa-plus"></i>
+            Create
+        </button>
+    </div>
+
+    <div class="clearfix"></div>
+    <br />
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 @rtlClass">
+        <div id="grid"></div>
+    </div>
+</div>

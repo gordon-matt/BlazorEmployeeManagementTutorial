@@ -1,4 +1,7 @@
 using System;
+using System.Net;
+using System.Net.Security;
+using System.Security.Cryptography.X509Certificates;
 using Autofac;
 using EmployeeManagement.Data;
 using EmployeeManagement.Web.Areas.Identity;
@@ -41,9 +44,9 @@ namespace EmployeeManagement.Web
             services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<IdentityUser>>();
             services.AddDatabaseDeveloperPageExceptionFilter();
 
-            services.AddHttpClient<IEmployeeService, EmployeeService>(client=>
+            services.AddHttpClient<IEmployeeService, EmployeeService>(client =>
             {
-                client.BaseAddress = new Uri("https://localhost:44390/");
+                client.BaseAddress = new Uri("http://localhost:56024/");
             });
         }
 
@@ -54,6 +57,11 @@ namespace EmployeeManagement.Web
             {
                 app.UseDeveloperExceptionPage();
                 app.UseMigrationsEndPoint();
+
+                ServicePointManager.ServerCertificateValidationCallback = delegate (object obj, X509Certificate certificate, X509Chain chain, SslPolicyErrors errors)
+                {
+                    return true;
+                };
             }
             else
             {

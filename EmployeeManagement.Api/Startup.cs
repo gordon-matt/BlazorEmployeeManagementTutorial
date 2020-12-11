@@ -33,6 +33,11 @@ namespace EmployeeManagement.Api
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
 
+            services.AddCors(options => options.AddPolicy("AllowAll", p => p
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader()));
+
             services.AddControllers();
 
             services.AddOData();
@@ -58,7 +63,9 @@ namespace EmployeeManagement.Api
                 app.UseSwaggerUI(config => config.SwaggerEndpoint("/swagger/v1/swagger.json", "EmployeeManagement.Api v1"));
             }
 
-            app.UseHttpsRedirection();
+            app.UseCors("AllowAll");
+
+            //app.UseHttpsRedirection();
 
             app.UseRouting();
 
